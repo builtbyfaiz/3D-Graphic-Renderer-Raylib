@@ -16,7 +16,12 @@ int main()
     Point3D c3D(0, 300, 1);
     Point3D d3D(0, -300, 1);
 
-    vector<Point3D> points3D = {a3D, b3D, c3D, d3D};
+    Point3D e3D(300, 0, 10);
+    Point3D f3D(-300, 0, 10);
+    Point3D g3D(0, 300, 10);
+    Point3D h3D(0, -300, 10);
+
+    vector<Point3D> points3D = {a3D, b3D, c3D, d3D, e3D, f3D, g3D, h3D};
     vector<Point2D> points2D;
 
     while (!WindowShouldClose())

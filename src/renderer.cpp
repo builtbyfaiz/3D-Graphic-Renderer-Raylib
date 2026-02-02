@@ -1,5 +1,5 @@
 #include "renderer.h"
-#include "constants.h"
+#include "globals.h"
 #include "points.h"
 #include "raylib-cpp.hpp"
 
@@ -21,8 +21,8 @@ Point2D Renderer::transformCartesian(Point2D p)
 Point2D Renderer::convert2D(Point3D &p)
 {
     p.z = p.z == 0 ? 1 : p.z;
-    float x = p.x / p.z;
-    float y = p.y / p.z;
+    float x = p.x / p.z * focal;
+    float y = p.y / p.z * focal;
     return {x, y};
 }
 
@@ -39,5 +39,5 @@ void Renderer::render(Point3D p3D)
                   RED); // Render to screen
 }
 
-
-
+Renderer::Renderer() { focal = 200.f; 
+}

@@ -1,46 +1,35 @@
+#include "points.h"
 #include "raylib-cpp.hpp"
+#include "renderer.h"
+#include <iostream>
+#include <vector>
 
 using namespace std;
 
-class Point2D
-{
-  public:
-    float x, y;
-};
-
-class Point3D
-{
-  public:
-    float x, y, z;
-    int size;
-
-    Point3D(int x, int y, int z) : x(x), y(y), z(z), size(20) {};
-};
-
-class Renderer
-{
-    public:
-    static Point2D project2D(Point3D &p)
-    {
-        float x = p.x / p.z;
-        float y = p.y / p.z;
-        return {x, y};
-    }
-};
-
 int main()
 {
-    raylib::Window graphicWindow(800, 600, "Graphic Render", FLAG_VSYNC_HINT);
+    raylib::Window graphicWindow(600, 600, "Graphic Render", FLAG_VSYNC_HINT);
     SetTargetFPS(75);
 
-    Point3D p(20, 20, 20);
-    Point2D pPrime = Renderer::project2D(p);
+    Point3D a3D(300, 0, 1);
+    Point3D b3D(-300, 0, 1);
+    Point3D c3D(0, 300, 1);
+    Point3D d3D(0, -300, 1);
+
+    vector<Point3D> points3D = {a3D, b3D, c3D, d3D};
+    vector<Point2D> points2D;
+
     while (!WindowShouldClose())
     {
-        pPrime = Renderer::project2D(p);
         BeginDrawing();
         ClearBackground(BLACK);
-        DrawRectangle(pPrime.x, pPrime.y, 20,20, RED) ;
+
+        for (auto &p : points3D)
+        {
+            p.z+=0.01;
+            Renderer::render(p);
+        }
+
         EndDrawing();
     }
 }

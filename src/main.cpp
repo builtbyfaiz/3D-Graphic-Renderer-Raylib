@@ -15,7 +15,7 @@ int main()
         100.f; // Distance from Center {0,0,0} of the cube's faces, Used to create symmetric cube
 
     vector<Point3D> cube = {{-h, -h, -h}, {h, -h, -h}, {h, h, -h}, {-h, h, -h},
-                            {-h, -h,  h}, {h, -h,  h}, {h, h,  h}, {-h, h,  h}};
+                            {-h, -h, h},  {h, -h, h},  {h, h, h},  {-h, h, h}};
 
     vector<pair<int, int>> edges = {
         {0, 1}, {1, 2}, {2, 3}, {3, 0}, // back face
@@ -33,15 +33,19 @@ int main()
 
     while (!WindowShouldClose())
     {
+        // clang-format off
+        
+        // clang-format on
+
         BeginDrawing();
         ClearBackground(BLACK);
 
         for (auto &p : cube)
         {
-            p.x += 0.1;
             Renderer::renderShape(cube, edges);
         }
 
         EndDrawing();
     }
+    return 0;
 }

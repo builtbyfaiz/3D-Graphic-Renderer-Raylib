@@ -36,7 +36,7 @@ Point2D Renderer::project(Point3D &p)
 - Transforms to cartesian plane
 - Draws the points and their connections/edges on screen
 */
-void Renderer::renderShape(Shape shape, Connections connections)
+void Renderer::renderShape(Shape &shape, Connections &connections)
 {
     // clang-format off
     for (auto &edge : connections)
@@ -83,4 +83,31 @@ void Renderer::renderPoint(Point2D &p, Color color)
     rect.Draw(color); // Render to screen
 }
 
+void Renderer::moveShape(Shape &shape, float dx, float dy)
+{
+    for (auto &point : shape)
+    {
+        point.x += dx;
+        point.y += dy;
+    }
+}
+
+void Renderer::handleInput(Shape &shape)
+{
+    if (GetKeyPressed() == 0) return; // Return if no key pressed
+    
+    // Decide change in x or y based on input
+    if (IsKeyDown(KEY_W)) dy += 1;
+    if (IsKeyDown(KEY_S)) dy -= 1;
+    if (IsKeyDown(KEY_A)) dx -= 1;
+    if (IsKeyDown(KEY_D)) dx += 1;
+    
+    if (dx != 0 || dy != 0)
+    {
+        Renderer::moveShape(shape, dx, dy);
+    }
+}
+
 float Renderer::focal = 300.f;
+int   Renderer::dx    = 0;
+int   Renderer::dy    = 0;

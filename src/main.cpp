@@ -28,7 +28,7 @@ int main()
     // Cube is at {0,0,0}, Camera is also at [0,0,0] so, Push cube forward to see it better
     for (auto &p : cube)
     {
-        p.z += 300;
+        p.z += 500;
     }
 
     while (!WindowShouldClose())
@@ -38,7 +38,7 @@ int main()
 
         for (auto &p : cube)
         {
-            p.x += 0.05;
+            p.x += 0.1;
             Renderer::renderShape(cube, edges);
         }
 

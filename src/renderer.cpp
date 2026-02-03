@@ -39,7 +39,6 @@ Point2D Renderer::project(Point3D &p)
 void Renderer::renderShape(Shape shape, Connections connections)
 {
     // clang-format off
-    
     for (auto &edge : connections)
     {
         Point3D A3D = shape[edge.first];  // first point
@@ -48,14 +47,13 @@ void Renderer::renderShape(Shape shape, Connections connections)
         // Prepare points for rendering
         Point2D A2D = preparePoint(A3D);
         Point2D B2D = preparePoint(B3D);
+
+        // Render points
+        // renderPoint(A2D,RED);
+        // renderPoint(B2D,RED);
         
-        // Turn points into renderable rectangles with size
-        raylib::Rectangle rect1 = {A2D.x, A2D.y, POINT_SIZE, POINT_SIZE};
-        raylib::Rectangle rect2 = {B2D.x, B2D.y, POINT_SIZE, POINT_SIZE};
-        
-        // Render to screen
-        rect1.Draw(RED);
-        rect2.Draw(RED);
+        // Render Edge
+        DrawLine(A2D.x+(POINT_SIZE/2), A2D.y+(POINT_SIZE/2), B2D.x+(POINT_SIZE/2), B2D.y+(POINT_SIZE/2), BLUE); 
     }
     // clang-format on
 }
@@ -76,6 +74,13 @@ Point2D Renderer::preparePoint(Point3D &p3D)
     // clang-format on
 }
 
-void Renderer::renderPoint(Point3D &p) {}
+// Render the 2D point on screen in given Color
+void Renderer::renderPoint(Point2D &p, Color color)
+{
+    raylib::Rectangle rect = {
+        p.x, p.y, POINT_SIZE,
+        POINT_SIZE};  // Turn point into renderable rectangles with size
+    rect.Draw(color); // Render to screen
+}
 
-float Renderer::focal = 200.f;
+float Renderer::focal = 300.f;

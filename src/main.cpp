@@ -33,9 +33,10 @@ int main()
     
     while (!WindowShouldClose())
     {
+        Controller::handleInput();
+        Controller::update(world);
         worldToRender = world;
         Renderer::pushWorldIntoView(worldToRender, 600);// Temp function
-        Controller::handleInput();
         Renderer::render(worldToRender);
     }
     return 0;

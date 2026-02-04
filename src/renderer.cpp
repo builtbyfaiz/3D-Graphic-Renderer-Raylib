@@ -1,6 +1,7 @@
 #include "renderer.h"
 #include "globals.h"
 #include "raylib-cpp.hpp"
+#include "camera.h"
 
 // clang-format off
 /*
@@ -24,7 +25,9 @@ void Renderer::projectPoint(raylib::Vector3 &p)
     float x = p.x / p.z * focal;
     float y = p.y / p.z * focal;
 
-    p = {x, y, 0};
+    p.x = x; 
+    p.y = y; 
+    p.z = 0;
 }
 
 /*
@@ -52,12 +55,9 @@ void Renderer::transformShape(Shape &shape)
     // Transform ={scale,translate,rotate}, project, render
 
     // Move
-    
     for (auto &point : shape.vertices)
     {
-        point.x += shape.position.x;
-        point.y += shape.position.y;
-        point.y += shape.position.z;
+        point += shape.position;
     }
 }
 
@@ -91,6 +91,7 @@ void Renderer::transformWorld(World &world)
     for (auto &shape : world.shapes)
     {
         // shape.move({camDx,camDy,camDy});
+        shape.position -= world.camera.position;
         transformShape(shape);
     }
 }
@@ -148,4 +149,3 @@ void Renderer::render(World &world)
 
 // clang-format on
 float Renderer::focal = 500.f;
-bool moveMode = 0;

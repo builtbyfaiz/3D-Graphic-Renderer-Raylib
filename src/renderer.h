@@ -4,15 +4,11 @@
 #include "raylib-cpp.hpp"
 #include "world.h"
 
+// clang-format off
 class Renderer
 {
   public:
     static float focal;
-
-    static bool moveMode;
-
-    static World renderedWorld; 
-    // clang-format off
 
     static void transformPoint(raylib::Vector3 &p);          // Convert point to cartesian plane, so projection is accurate
     static void projectPoint(raylib::Vector3 &p);            // Project 3D Point on 2d screen

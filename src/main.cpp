@@ -13,12 +13,14 @@ int main()
     SetTargetFPS(75);
 
     float h = 100.f; // Cube face distance from origin, Used to create symmetric cube
-    Shape cube;
+    Shape cube, cube2;
 
     cube.vertices = {
         {-h, -h, -h}, {h, -h, -h}, {h, h, -h}, {-h, h, -h},
         {-h, -h,  h}, {h, -h,  h}, {h, h,  h}, {-h, h,  h}
     };
+
+    cube2.vertices = cube.vertices;
 
     cube.edges = {
         {0, 1}, {1, 2}, {2, 3}, {3, 0}, // back face
@@ -26,9 +28,14 @@ int main()
         {0, 4}, {1, 5}, {2, 6}, {3, 7}  // connecting edges
     };
 
+    cube2.edges = cube.edges;
+    cube2.setColor(RED);
+
     // create a copy of original world to turn into camera view #TODO make this automatic in render pipeline
     World world;
     world.shapes.push_back(cube);
+    world.shapes.push_back(cube2);
+
 
     World worldToRender = world; 
     

@@ -21,14 +21,14 @@ void Renderer::transformPoint(Vec3 &p)
 */
 void Renderer::projectPoint(Vec3 &p)
 {
-    p.z = p.z == 0 ? 1 : p.z;
+    p.z = p.z == 0 ? 0.01 : p.z;
 
     float x = p.x / p.z * focal;
     float y = p.y / p.z * focal;
 
     p.x = x; 
     p.y = y; 
-    p.z = 0;
+    // p.z = 0;
 }
 
 /*
@@ -80,13 +80,13 @@ void Renderer::drawShape(Shape &shape)
 {
     for(auto &edge: shape.edges) 
     {
-        Vec3 A = shape.vertices[edge.first];
+        Vec3 A = shape.vertices[edge.first]; 
         Vec3 B = shape.vertices[edge.second];
 
         float offset = POINT_SIZE/2;
-        DrawLine(A.x+offset, A.y+offset, B.x+offset, B.y+offset, edge.color);  // Render Edge
-        drawPoint(A,RED);
-        drawPoint(B,RED);
+        DrawLine(A.x+offset, A.y+offset, B.x+offset, B.y+offset, edge.getColor());  // Render Edge
+        // drawPoint(A,RED);
+        // drawPoint(B,RED);
     }
 }
 

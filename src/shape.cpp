@@ -16,4 +16,14 @@ void Shape::rotate(const Vec3 &delta)
     rotation.z += delta.z;
 }
 
-void EdgeIndexPair::setColor(Color c) { this->color = c; }
+void Shape::setColor(raylib::Color color) {
+    for (auto &edge : edges)
+    {
+        edge.setColor(color);
+    }
+    
+}
+
+// Getter, Setter
+void          Shape::EdgeIndexPair::setColor(raylib::Color c) { this->color = c; }
+raylib::Color Shape::EdgeIndexPair::getColor()                { return color; }

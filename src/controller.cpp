@@ -3,24 +3,35 @@
 // Check key presses, decide movement #TODO make camera movement and shape movement input seperate
 void Controller::handleInput() {
 
-    // By default do no movement
-    int dx, dy, dz;
-    dx = dy = dz = 0;
+    // By default Do no movement
+    raylib::Vector3 moveVec(0,0,0);
+
+    if(moveMode == 0) camMove   = moveVec;
+    if(moveMode == 1) shapeMove = moveVec;
 
     // Return if no key pressed
     if (GetKeyPressed() == 0) return; 
     
-    if(IsKeyPressed(KEY_O)) moveMode=0;
-    if(IsKeyPressed(KEY_P)) moveMode=1;
+    if(IsKeyPressed(KEY_O)) moveMode=0; // Camera
+    if(IsKeyPressed(KEY_P)) moveMode=1; // Shape #TODO make selector
 
-    // Decide change in x or y based on input
-    if (IsKeyDown(KEY_W)) dy += 1;
-    if (IsKeyDown(KEY_A)) dx -= 1;
-    if (IsKeyDown(KEY_S)) dy -= 1;
-    if (IsKeyDown(KEY_D)) dx += 1;
+    // Decide change in x,y,z based on input
+    if (IsKeyDown(KEY_D)) moveVec.x += moveSpeed;
+    if (IsKeyDown(KEY_A)) moveVec.x -= moveSpeed;
 
-    if (IsKeyDown(KEY_I)) dz += 1;
-    if (IsKeyDown(KEY_K)) dz -= 1;
+    if (IsKeyDown(KEY_W)) moveVec.y += moveSpeed;
+    if (IsKeyDown(KEY_S)) moveVec.y -= moveSpeed;
+
+    if (IsKeyDown(KEY_I)) moveVec.z += moveSpeed;
+    if (IsKeyDown(KEY_K)) moveVec.z -= moveSpeed;
 }
-void Controller::update(World &world) {}
+
+void Controller::update(World &world)
+{
+    
+}
 bool moveMode = 0;
+
+raylib::Vector3 camMove       = {0,0,0};
+raylib::Vector3 shapeMove     = {0,0,0};
+int moveSpeed = 1;

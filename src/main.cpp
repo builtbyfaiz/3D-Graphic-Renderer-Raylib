@@ -35,7 +35,7 @@ int main()
     {
         worldToRender = world;
         Renderer::pushWorldIntoView(worldToRender, 600);// Temp function
-        Controller::handleInput(worldToRender);
+        Controller::handleInput();
         Renderer::render(worldToRender);
     }
     return 0;

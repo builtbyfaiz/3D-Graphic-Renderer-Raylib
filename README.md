@@ -3,7 +3,7 @@ A very simple 3D graphic rendering engine made in C++ via raylib
 
 ## Supported Platforms
 Quickstart/This software supports the main 3 desktop platforms:
-* Windowss
+* Windows
 * Linux
 * MacOS
   
@@ -20,6 +20,7 @@ The built code will be in the bin/debug dir
 
 ## Notes:
 Make sure to check the official raylib quickstart documentation and github for more information on how to build this game...
+Raylib and Raylib-cpp wrapper are included.
 
 # License
-Code for reviewing purposes only, forks are disallowed.
+Code for review purposes only, forks are not allowed.

@@ -8,8 +8,11 @@ In development, not feature complete.
 ## Controls
 | Input | Action |
 |-------|--------|
-| WASD  | Move around |
-| OP    | Change Modes of movement (Shapes/Camera) |
+| WASD  | Move around [Up, Left, Down, Right] |
+| I    | Move Forward |
+| K    | Move Backward |
+| O     | Change Movement Mode to Camera. |
+| P     | Change Movement Mode to Individual Shapes. |
 
 ## Building
 

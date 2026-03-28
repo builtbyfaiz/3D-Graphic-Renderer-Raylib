@@ -67,9 +67,27 @@ function check_raylib()
     os.chdir("../")
 end
 
+function check_raylibcpp()
+    os.chdir("external")
+    if(os.isdir("raylib-cpp-5.5.1") == false) then
+        if(not os.isfile("raylib-cpp-5.5.1.zip")) then
+            print("Raylib-cpp not found, downloading from github")
+            http.download("https://github.com/RobLoach/raylib-cpp/archive/refs/tags/v5.5.1.zip", "raylib-cpp-5.5.1.zip", {
+                progress = download_progress,
+                headers = { "From: Premake", "Referer: Premake" }
+            })
+        end
+        print("Unzipping raylib-cpp...")
+        zip.extract("raylib-cpp-5.5.1.zip", os.getcwd())
+        os.remove("raylib-cpp-5.5.1.zip")
+    end
+    os.chdir("../")
+end
+
 function build_externals()
      print("calling externals")
      check_raylib()
+     check_raylibcpp()
 end
 
 function platform_defines()
@@ -101,7 +119,7 @@ function platform_defines()
         defines{"GRAPHICS_API_OPENGL_ES2"}
 
     filter {"options:graphics=software"}
-        defines{"GRAPHICS_API_OPENGL_11_SOFTWARE"}
+        defines{"GRAPHICS_API_OPENGL_SOFTWARE"}
 
     filter {"system:macosx"}
         disablewarnings {"deprecated-declarations"}
@@ -205,7 +223,7 @@ if (downloadRaylib) then
         filter{}
         
         includedirs { "../src" }
-        externalincludedirs { "../include" }
+        includedirs { "../include" }
 
         links {"raylib"}
 
@@ -213,6 +231,7 @@ if (downloadRaylib) then
         cppdialect "C++17"
 
         includedirs {raylib_dir .. "/src" }
+        externalincludedirs { "external/raylib-cpp-5.5.1/include" }
 
         flags { "ShadowedVariables"}
         platform_defines()

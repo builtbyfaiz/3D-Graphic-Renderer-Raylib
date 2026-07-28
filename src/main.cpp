@@ -19,7 +19,7 @@ int main()
     Controller controller;
     Renderer renderer;
 
-    renderer.pushWorldIntoView(world, 600);// Temp function
+    // renderer.pushWorldIntoView(world, 600);// Temp function
 
     while (!WindowShouldClose())
     {

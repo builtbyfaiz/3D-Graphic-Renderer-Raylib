@@ -51,20 +51,20 @@ void Renderer::drawPoint(raylib::Vector3 &p, Color color)
     rect.Draw(color); 
 }
 
-void Renderer::applyTranslation() {};
-void Renderer::applyRotation() {};
-void Renderer::applyScaling() {};
+void Renderer::applyRotation(Shape &shape)
+{
+    
+}
 
 // - Rotate, Scale, Translate shape to its accurate position
 void Renderer::transformShape(Shape &shape)
 {
-    // Rotate #TODO
     // Transform = {scale,translate,rotate}, project, render
-
-    // Move
     for (auto &point : shape.vertices)
     {
-        point += shape.position;
+        point *= shape.scaling;   // Scale
+        // Rotate #TODO
+        point += shape.position;  // Move/Translate
     }
 }
 
@@ -85,11 +85,7 @@ void Renderer::drawShape(Shape &shape)
     {
         raylib::Vector3 A = shape.vertices[edge.first]; 
         raylib::Vector3 B = shape.vertices[edge.second];
-
-        float offset = POINT_SIZE/2;
-        DrawLine(A.x+offset, A.y+offset, B.x+offset, B.y+offset, edge.getColor());  // Render Edge
-        // drawPoint(A,RED);
-        // drawPoint(B,RED);
+        DrawLine(A.x, A.y, B.x, B.y, edge.getColor());  // Render Edge
     }
 }
 

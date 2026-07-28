@@ -11,10 +11,8 @@ class Renderer
     void projectPoint(raylib::Vector3 &p);            // Project 3D Point on 2d screen
     void preparePoint(raylib::Vector3 &p);            // Convert to cartesian and projects a 3D point
     void drawPoint(raylib::Vector3 &p, Color color);  // Renders point on 2d screen's cartesian plane
-
-    // void applyTranslation();
-    // void applyRotation();
-    // void applyScaling();
+    
+    void applyRotation(Shape &shape);     // Rotate shape in 3D space
 
     void transformShape(Shape &shape); // Rotate, Scale, Translate shape in 3D space
     void projectShape(Shape &shape);   // Project 3D shape on 2D screen's cartesian plane

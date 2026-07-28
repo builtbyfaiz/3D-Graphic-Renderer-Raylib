@@ -58,6 +58,7 @@ void Shape::saveShape(std::string filePath)
     ofile << "TRANSFORM\n";
     ofile << position.x << " " << position.y << " " << position.z << "\n";
     ofile << rotation.x << " " << rotation.y << " " << rotation.z << "\n";
+    ofile << scaling.x  << " " << scaling.y  << " " << scaling.z  << "\n";
 }
 
 // Loads itself from a text file at the given path.
@@ -123,6 +124,7 @@ void Shape::loadShape(std::string filePath)
 
     file >> position.x >> position.y >> position.z;
     file >> rotation.x >> rotation.y >> rotation.z;
+    file >> scaling.x  >> scaling.y  >> scaling.z;
 }
 
 // Getter, Setter

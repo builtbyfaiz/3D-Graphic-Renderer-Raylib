@@ -77,15 +77,42 @@ void Renderer::projectShape(Shape &shape)
 }
 
 /*
+Returns a faded color based on average depth of the edge
+- Has a start value
+- Lasts over a range
+- Uses Color Alpha to provide depth illusion
+*/
+raylib::Color Renderer::applyDepth(raylib::Color color, float depth)
+{
+    constexpr float fadeStart = 600.0f;
+    constexpr float fadeRange = 700.0f;
+
+    float fade = Clamp((depth - fadeStart) / fadeRange, 0.0f, 1.0f);
+
+    fade = fade * fade * (3.0f - 2.0f * fade);
+
+    color.a = (unsigned char)(255 * (1.0f - fade));
+
+    return color;
+}
+
+/*
 - Draws the points or their connections/edges on screen
 */
 void Renderer::drawShape(Shape &shape)
 {
-    for(auto &edge: shape.edges) 
+    for (auto &edge : shape.edges)
     {
-        raylib::Vector3 A = shape.vertices[edge.first]; 
-        raylib::Vector3 B = shape.vertices[edge.second];
-        DrawLine(A.x, A.y, B.x, B.y, edge.getColor());  // Render Edge
+        auto A = shape.vertices[edge.first];
+        auto B = shape.vertices[edge.second];
+
+        float depth = (A.z + B.z) * 0.5f;
+
+        DrawLine(
+            A.x, A.y,
+            B.x, B.y,
+            applyDepth(edge.getColor(), depth)
+        );
     }
 }
 

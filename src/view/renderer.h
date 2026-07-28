@@ -4,16 +4,10 @@
 
 class Renderer
 {
-  public:
-    static void render(World &world); // Render world via render pipeline, Transform->Project->Draw
-    
-    // TEMP DEBUG FUCTION
-    static void pushWorldIntoView(World &world, int amount);
-  
   private:
     static float focal;
 
-    static void transformPoint(        raylib::Vector3 &p);  // Convert point to cartesian plane, so projection is accurate
+    static void transformPoint(raylib::Vector3 &p);  // Convert point to cartesian plane, so projection is accurate
     static void projectPoint(raylib::Vector3 &p);            // Project 3D Point on 2d screen
     static void preparePoint(raylib::Vector3 &p);            // Transforms and projects a 3D point
     static void drawPoint(raylib::Vector3 &p, Color color);  // Renders point on 2d screen's cartesian plane
@@ -26,4 +20,8 @@ class Renderer
     static void projectWorld(World &world);   // Project 3D world to 2D screen's cartesian plane
     static void prepareWorld(World &world);   // Transforms and projects all shapes inside a world
     static void drawWorld(World &world);      // Renders 3D world on 2D screen's cartesian plane
+
+  public:
+    static void render(World &world); // Render world via render pipeline, Transform->Project->Draw
+    static void pushWorldIntoView(World &world, int amount); // TEMP DEBUG FUCTION
 };

@@ -1,10 +1,10 @@
 #pragma once
-#include "shape.h"
 #include "camera.h"
+#include "shape.h"
 
 class World
-{   
-    public:
+{
+  public:
     std::vector<Shape> shapes;
     MyCamera camera;
 };

@@ -1,6 +1,5 @@
 #include "controller/controller.h"
 #include "view/renderer.h"
-
 #include <iostream>
 #include <vector>
 
@@ -17,13 +16,16 @@ int main()
     world.shapes.push_back(cube1);
     world.shapes.push_back(cube2);
 
-    Renderer::pushWorldIntoView(world, 600);// Temp function
+    Controller controller;
+    Renderer renderer;
+
+    renderer.pushWorldIntoView(world, 600);// Temp function
 
     while (!WindowShouldClose())
     {
-        Controller::handleInput();
-        Controller::update(world);
-        Renderer::render(world);
+        controller.handleInput();
+        controller.update(world);
+        renderer.render(world);
     }
     return 0;
 }

@@ -1,17 +1,26 @@
 #pragma once
-#include "raylib-cpp.hpp" // IWYU pragma: keep
 #include "model/world.h"
+#include "raylib-cpp.hpp" // IWYU pragma: keep
+
 
 // handles input, camera movement, shape movement
 class Controller
 {
-  public:
-  
-    static raylib::Vector3 delta;
-    static bool moveMode; // Move camera, or individual shapes
-    static int  moveSpeed; 
-    static int  selectedShapeIndex; // Index of shapes in the world array
+  private:
+    enum class ControlMode
+    {
+        Cam, // Move / Rotate Camera
+        Shape   // Move / Rotate Shapes
+    } controlMode{ControlMode::Cam};
 
-    static void handleInput();        // Decide if an action is needed
-    static void update(World &world); // Perform the needed action
+  public:
+
+    bool  moveMode           = 0;   // Move camera, or individual shapes
+    float controlSpeed       = 1.5; // Control Speed of rotations and movement
+    int   selectedShapeIndex = 0;   // Index of shapes in the world array
+
+    raylib::Vector3 movementDelta{0,0,0}; 
+
+    void handleInput();         // Decide if an action is needed
+    void update(World &world);  // Perform the needed action
 };

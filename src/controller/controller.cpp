@@ -1,45 +1,43 @@
 #include <iostream>
-#include "controller/controller.h"
-
+#include "controller.h"
 
 // Check key presses, decide movement
 void Controller::handleInput() 
 {
     // By default Do no movement, reset delta
-    delta = raylib::Vector3{0,0,0};
+    // Vector2 mouseDelta = GetMouseDelta();
 
-    if(IsKeyPressed(KEY_O)) moveMode = 0; // Camera
-    if(IsKeyPressed(KEY_P)) moveMode = 1; // Shape #TODO make selector for shapes
+    // float yaw   += mouseDelta.x * controlSpeed;   
+    // float pitch += mouseDelta.y * controlSpeed;
+    
+    movementDelta = raylib::Vector3{0,0,0};
+    
+    if(IsKeyPressed(KEY_O)) controlMode = ControlMode::Cam; // Camera
+    if(IsKeyPressed(KEY_P)) controlMode = ControlMode::Shape;; // Shape #TODO make selector for shapes
 
     // Decide change in x,y,z based on input i.e construct the move Vector
-    if (IsKeyDown(KEY_D)) delta.x += moveSpeed;
-    if (IsKeyDown(KEY_A)) delta.x -= moveSpeed;
+    if (IsKeyDown(KEY_A)) movementDelta.x -= controlSpeed;
+    if (IsKeyDown(KEY_D)) movementDelta.x += controlSpeed;
     
-    if (IsKeyDown(KEY_W)) delta.y += moveSpeed;
-    if (IsKeyDown(KEY_S)) delta.y -= moveSpeed;
+    if (IsKeyDown(KEY_W)) movementDelta.y += controlSpeed;
+    if (IsKeyDown(KEY_S)) movementDelta.y -= controlSpeed;
 
-    if (IsKeyDown(KEY_I)) delta.z += moveSpeed;
-    if (IsKeyDown(KEY_K)) delta.z -= moveSpeed;
+    if (IsKeyDown(KEY_I)) movementDelta.z += controlSpeed;
+    if (IsKeyDown(KEY_K)) movementDelta.z -= controlSpeed;
 }
 
 // Move stuff
 void Controller::update(World &world)
 {   
-    //Individual shape mode
-    if (moveMode == 1)
-        world.shapes[selectedShapeIndex].move(delta);
-
     // Camera Mode
-    else if (moveMode == 0)
-        world.camera.move(delta);
-
+    if (controlMode == ControlMode::Cam )
+        world.camera.move(movementDelta);
+    
+    //Individual shape mode
+    else if (controlMode == ControlMode::Shape)
+        world.shapes[selectedShapeIndex].move(movementDelta);
+        
     else
         std::cout << "invalid Move Mode";
 }
-
-int  Controller::moveSpeed          = 1;
-int  Controller::selectedShapeIndex = 0;
-bool Controller::moveMode           = 0;
-
-raylib::Vector3 Controller::delta{0.0f, 0.0f, 0.0f};
 

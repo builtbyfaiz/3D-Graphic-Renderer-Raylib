@@ -149,6 +149,3 @@ void Renderer::render(World &world)
     prepareWorld(worldCopy);         // Transform, Project
     drawWorld   (worldCopy);         // Draw to screen
 }
-
-// clang-format on
-float Renderer::focal = 500.f;

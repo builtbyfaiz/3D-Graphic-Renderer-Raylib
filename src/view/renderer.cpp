@@ -11,7 +11,7 @@
 - Inverts Y axis around the origin
 - Centers origin on 0,0
 */
-void Renderer::transformPoint(Vec3 &p)
+void Renderer::transformPoint(raylib::Vector3 &p)
 {
     p.y = -p.y;
     p.x += (GetScreenWidth()  - POINT_SIZE) / 2;
@@ -21,7 +21,7 @@ void Renderer::transformPoint(Vec3 &p)
 /* 
 - Project the 3D Point onto the 2D screen
 */
-void Renderer::projectPoint(Vec3 &p)
+void Renderer::projectPoint(raylib::Vector3 &p)
 {
     p.z = p.z == 0 ? 0.01 : p.z;
 
@@ -37,14 +37,14 @@ void Renderer::projectPoint(Vec3 &p)
 - Projects 3D point to 2D
 - Transforms to cartesian plane
 */
-void Renderer::preparePoint(Vec3 &p)
+void Renderer::preparePoint(raylib::Vector3 &p)
 {
     projectPoint(p);              // Convert from 3D to 2D
     transformPoint(p);            // Translate to cartesiasn plane
 }
 
 // Render the 2D point on screen in given Color
-void Renderer::drawPoint(Vec3 &p, Color color)
+void Renderer::drawPoint(raylib::Vector3 &p, Color color)
 {
     // Turn point into renderable rectangles with size
     raylib::Rectangle rect = {p.x, p.y, POINT_SIZE, POINT_SIZE};  
@@ -82,8 +82,8 @@ void Renderer::drawShape(Shape &shape)
 {
     for(auto &edge: shape.edges) 
     {
-        Vec3 A = shape.vertices[edge.first]; 
-        Vec3 B = shape.vertices[edge.second];
+        raylib::Vector3 A = shape.vertices[edge.first]; 
+        raylib::Vector3 B = shape.vertices[edge.second];
 
         float offset = POINT_SIZE/2;
         DrawLine(A.x+offset, A.y+offset, B.x+offset, B.y+offset, edge.getColor());  // Render Edge

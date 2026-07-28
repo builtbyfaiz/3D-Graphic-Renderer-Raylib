@@ -1,18 +1,18 @@
 #include "shape.h"
 #include "raylib-cpp.hpp" // IWYU pragma: keep
-#include "vector3D.h"
+
 #include <fstream>
 #include <iostream>
 #include <string>
 
-void Shape::move(const Vec3 &delta)
+void Shape::move(const raylib::Vector3 &delta)
 {
     position.x += delta.x;
     position.y += delta.y;
     position.z += delta.z;
 }
 
-void Shape::rotate(const Vec3 &delta)
+void Shape::rotate(const raylib::Vector3 &delta)
 {
     rotation.x += delta.x;
     rotation.y += delta.y;
@@ -86,7 +86,7 @@ void Shape::loadShape(std::string filePath)
 
     for (int i = 0; i < count; i++)
     {
-        Vec3 v;
+        raylib::Vector3 v;
         file >> v.x >> v.y >> v.z;
         vertices.push_back(v);
     }

@@ -1,5 +1,5 @@
 #include "shape.h"
-#include "raylib-cpp.hpp"
+#include "raylib-cpp.hpp" // IWYU pragma: keep
 #include "vector3D.h"
 #include <fstream>
 #include <iostream>
@@ -7,16 +7,16 @@
 
 void Shape::move(const Vec3 &delta)
 {
-    position.x_ += delta.x_;
-    position.y_ += delta.y_;
-    position.z_ += delta.z_;
+    position.x += delta.x;
+    position.y += delta.y;
+    position.z += delta.z;
 }
 
 void Shape::rotate(const Vec3 &delta)
 {
-    rotation.x_ += delta.x_;
-    rotation.y_ += delta.y_;
-    rotation.z_ += delta.z_;
+    rotation.x += delta.x;
+    rotation.y += delta.y;
+    rotation.z += delta.z;
 }
 
 void Shape::setColor(raylib::Color color)
@@ -41,7 +41,7 @@ void Shape::saveShape(std::string filePath)
     ofile << "VERTICES " << vertices.size() << "\n";
     for (const auto &point : vertices)
     {
-        ofile << point.x_ << " " << point.y_ << " " << point.z_ << "\n";
+        ofile << point.x << " " << point.y << " " << point.z << "\n";
     }
 
     ofile << "EDGES " << edges.size() << "\n";
@@ -55,8 +55,8 @@ void Shape::saveShape(std::string filePath)
     }
 
     ofile << "TRANSFORM\n";
-    ofile << position.x_ << " " << position.y_ << " " << position.z_ << "\n";
-    ofile << rotation.x_ << " " << rotation.y_ << " " << rotation.z_ << "\n";
+    ofile << position.x << " " << position.y << " " << position.z << "\n";
+    ofile << rotation.x << " " << rotation.y << " " << rotation.z << "\n";
 }
 
 // Loads itself from a text file at the given path.
@@ -87,7 +87,7 @@ void Shape::loadShape(std::string filePath)
     for (int i = 0; i < count; i++)
     {
         Vec3 v;
-        file >> v.x_ >> v.y_ >> v.z_;
+        file >> v.x >> v.y >> v.z;
         vertices.push_back(v);
     }
 
@@ -120,8 +120,8 @@ void Shape::loadShape(std::string filePath)
         return;
     }
 
-    file >> position.x_ >> position.y_ >> position.z_;
-    file >> rotation.x_ >> rotation.y_ >> rotation.z_;
+    file >> position.x >> position.y >> position.z;
+    file >> rotation.x >> rotation.y >> rotation.z;
 }
 
 // Getter, Setter

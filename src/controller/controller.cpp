@@ -1,6 +1,6 @@
 #include <iostream>
-#include "controller.h"
-#include "vector3D.h"
+#include "controller/controller.h"
+#include "model/vector3D.h"
 
 // Check key presses, decide movement
 void Controller::handleInput() 
@@ -9,20 +9,21 @@ void Controller::handleInput()
     Vec3 moveVec(0,0,0);
     camMove   = {0,0,0};
     shapeMove = {0,0,0};
+    
     // if(GetKeyPressed == 0) return;
 
     if(IsKeyPressed(KEY_O)) moveMode=0; // Camera
     if(IsKeyPressed(KEY_P)) moveMode=1; // Shape #TODO make selector
 
     // Decide change in x,y,z based on input
-    if (IsKeyDown(KEY_D)) moveVec.x_ += moveSpeed;
-    if (IsKeyDown(KEY_A)) moveVec.x_ -= moveSpeed;
+    if (IsKeyDown(KEY_D)) moveVec.x += moveSpeed;
+    if (IsKeyDown(KEY_A)) moveVec.x -= moveSpeed;
     
-    if (IsKeyDown(KEY_W)) moveVec.y_ += moveSpeed;
-    if (IsKeyDown(KEY_S)) moveVec.y_ -= moveSpeed;
+    if (IsKeyDown(KEY_W)) moveVec.y += moveSpeed;
+    if (IsKeyDown(KEY_S)) moveVec.y -= moveSpeed;
 
-    if (IsKeyDown(KEY_I)) moveVec.z_ += moveSpeed;
-    if (IsKeyDown(KEY_K)) moveVec.z_ -= moveSpeed;
+    if (IsKeyDown(KEY_I)) moveVec.z += moveSpeed;
+    if (IsKeyDown(KEY_K)) moveVec.z -= moveSpeed;
 
     if(moveMode == 0) camMove   = moveVec;
     if(moveMode == 1) shapeMove = moveVec;

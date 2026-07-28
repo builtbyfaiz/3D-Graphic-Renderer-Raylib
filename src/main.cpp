@@ -1,7 +1,7 @@
-#include "raylib-cpp.hpp"
-#include "controller.h"
-#include "renderer.h"
-#include "vector3D.h"
+#include "raylib-cpp.hpp" // IWYU pragma: keep // IWYU pragma: keep
+#include "controller/controller.h"
+#include "view/renderer.h"
+#include "model/vector3D.h"
 #include <iostream>
 #include <vector>
 

@@ -15,5 +15,6 @@
 		"--completion-style=detailed",
 		"--header-insertion=never",
 		"--cross-file-rename"
-	]
+	],
+	"C_Cpp.default.compilerPath": "D:/w64devkit/bin/gcc.exe"
 }

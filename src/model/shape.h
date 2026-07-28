@@ -1,5 +1,5 @@
 #pragma once
-#include "raylib-cpp.hpp"
+#include "raylib-cpp.hpp" // IWYU pragma: keep
 #include "vector3D.h"
 #include <vector>
 
@@ -29,6 +29,6 @@ class Shape
     void move(const Vec3 &delta);
     void rotate(const Vec3 &delta);
     void setColor(raylib::Color color);
-    void saveShape(std::string fileName);      // Stores Shape to a raw text file
+    void saveShape(std::string fileName);  // Stores Shape to a raw text file
     void loadShape(std::string fileName);  // Loads Shape from a raw text file
 };

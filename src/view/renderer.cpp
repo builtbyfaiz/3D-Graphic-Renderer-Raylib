@@ -1,8 +1,8 @@
-#include "vector3D.h"
+#include "model/vector3D.h"
 #include "renderer.h"
 #include "globals.h"
-#include "raylib-cpp.hpp"
-#include "camera.h"
+#include "raylib-cpp.hpp" // IWYU pragma: keep
+#include "model/camera.h"
 
 // #TODO turn this into Compute renderer, not Destructive
 
@@ -13,9 +13,9 @@
 */
 void Renderer::transformPoint(Vec3 &p)
 {
-    p.y_ = -p.y_;
-    p.x_ += (GetScreenWidth()  - POINT_SIZE) / 2;
-    p.y_ += (GetScreenHeight() - POINT_SIZE) / 2;
+    p.y = -p.y;
+    p.x += (GetScreenWidth()  - POINT_SIZE) / 2;
+    p.y += (GetScreenHeight() - POINT_SIZE) / 2;
 }
 
 /* 
@@ -23,13 +23,13 @@ void Renderer::transformPoint(Vec3 &p)
 */
 void Renderer::projectPoint(Vec3 &p)
 {
-    p.z_ = p.z_ == 0 ? 0.01 : p.z_;
+    p.z = p.z == 0 ? 0.01 : p.z;
 
-    float x = p.x_ / p.z_ * focal;
-    float y = p.y_ / p.z_ * focal;
+    float x = p.x / p.z * focal;
+    float y = p.y / p.z * focal;
 
-    p.x_ = x; 
-    p.y_ = y; 
+    p.x = x; 
+    p.y = y; 
     // p.z = 0;
 }
 
@@ -47,7 +47,7 @@ void Renderer::preparePoint(Vec3 &p)
 void Renderer::drawPoint(Vec3 &p, Color color)
 {
     // Turn point into renderable rectangles with size
-    raylib::Rectangle rect = {p.x_, p.y_, POINT_SIZE, POINT_SIZE};  
+    raylib::Rectangle rect = {p.x, p.y, POINT_SIZE, POINT_SIZE};  
     rect.Draw(color); 
 }
 
@@ -60,9 +60,9 @@ void Renderer::transformShape(Shape &shape)
     // Move
     for (auto &point : shape.vertices)
     {
-        point.x_ += shape.position.x_;
-        point.y_ += shape.position.y_;
-        point.z_ += shape.position.z_;
+        point.x += shape.position.x;
+        point.y += shape.position.y;
+        point.z += shape.position.z;
         
     }
 }
@@ -86,7 +86,7 @@ void Renderer::drawShape(Shape &shape)
         Vec3 B = shape.vertices[edge.second];
 
         float offset = POINT_SIZE/2;
-        DrawLine(A.x_+offset, A.y_+offset, B.x_+offset, B.y_+offset, edge.getColor());  // Render Edge
+        DrawLine(A.x+offset, A.y+offset, B.x+offset, B.y+offset, edge.getColor());  // Render Edge
         // drawPoint(A,RED);
         // drawPoint(B,RED);
     }
@@ -97,9 +97,9 @@ void Renderer::transformWorld(World &world)
     for (auto &shape : world.shapes)
     {
         // shape.move({camDx,camDy,camDy});
-        shape.position.x_ -= world.camera.position.x_;
-        shape.position.y_ -= world.camera.position.y_;
-        shape.position.z_ -= world.camera.position.z_;
+        shape.position.x -= world.camera.position.x;
+        shape.position.y -= world.camera.position.y;
+        shape.position.z -= world.camera.position.z;
         transformShape(shape);
     }
 }
@@ -143,7 +143,7 @@ void Renderer::pushWorldIntoView(World &world, int amount)
     {
         for (auto &point : shape.vertices)
         {
-            point.z_+=amount;
+            point.z+=amount;
         }
     }
 }

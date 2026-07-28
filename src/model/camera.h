@@ -1,5 +1,5 @@
 #pragma once
-#include "raylib-cpp.hpp"
+#include "raylib-cpp.hpp" // IWYU pragma: keep
 #include "vector3D.h"
 
 struct MyCamera

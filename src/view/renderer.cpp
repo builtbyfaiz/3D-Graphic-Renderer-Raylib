@@ -137,7 +137,7 @@ void Renderer::pushWorldIntoView(World &world, int amount)
     {
         for (auto &point : shape.vertices)
         {
-            point.z+=amount;
+            point.z += amount;
         }
     }
 }
@@ -146,7 +146,7 @@ void Renderer::pushWorldIntoView(World &world, int amount)
 void Renderer::render(World &world)
 {
     World        worldCopy = world;  // Copy the original to not cause floating drift in original world
-    prepareWorld(worldCopy);         // Transform, Project, and Input
+    prepareWorld(worldCopy);         // Transform, Project
     drawWorld   (worldCopy);         // Draw to screen
 }
 

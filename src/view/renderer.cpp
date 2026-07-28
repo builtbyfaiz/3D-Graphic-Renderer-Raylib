@@ -1,4 +1,4 @@
-#include "model/vector3D.h"
+
 #include "renderer.h"
 #include "globals.h"
 #include "raylib-cpp.hpp" // IWYU pragma: keep
@@ -60,10 +60,7 @@ void Renderer::transformShape(Shape &shape)
     // Move
     for (auto &point : shape.vertices)
     {
-        point.x += shape.position.x;
-        point.y += shape.position.y;
-        point.z += shape.position.z;
-        
+        point += shape.position;
     }
 }
 
@@ -96,10 +93,7 @@ void Renderer::transformWorld(World &world)
 {
     for (auto &shape : world.shapes)
     {
-        // shape.move({camDx,camDy,camDy});
-        shape.position.x -= world.camera.position.x;
-        shape.position.y -= world.camera.position.y;
-        shape.position.z -= world.camera.position.z;
+        shape.position -= world.camera.position;
         transformShape(shape);
     }
 }

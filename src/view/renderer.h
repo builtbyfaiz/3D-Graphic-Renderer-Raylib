@@ -1,6 +1,6 @@
 #pragma once
 #include "raylib-cpp.hpp" // IWYU pragma: keep
-#include "model/vector3D.h"
+
 #include "model/world.h"
 
   // clang-format off

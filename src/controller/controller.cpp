@@ -1,6 +1,6 @@
 #include <iostream>
 #include "controller/controller.h"
-#include "model/vector3D.h"
+
 
 // Check key presses, decide movement
 void Controller::handleInput() 
@@ -40,5 +40,6 @@ void Controller::update(World &world)
 int  Controller::moveSpeed          = 1;
 int  Controller::selectedShapeIndex = 0;
 bool Controller::moveMode           = 0;
-raylib::Vector3 Controller::delta      {0.0f, 0.0f, 0.0f};
+
+raylib::Vector3 Controller::delta{0.0f, 0.0f, 0.0f};
 

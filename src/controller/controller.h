@@ -9,13 +9,12 @@ class Controller
   private:
     enum class ControlMode
     {
-        Cam, // Move / Rotate Camera
-        Shape   // Move / Rotate Shapes
+        Cam,  // Move / Rotate Camera
+        Shape // Move / Rotate Shapes
     } controlMode{ControlMode::Cam};
 
   public:
 
-    bool  moveMode           = 0;   // Move camera, or individual shapes
     float controlSpeed       = 1.5; // Control Speed of rotations and movement
     int   selectedShapeIndex = 0;   // Index of shapes in the world array
 

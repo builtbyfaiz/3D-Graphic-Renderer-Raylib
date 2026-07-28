@@ -11,7 +11,7 @@
 - Inverts Y axis around the origin
 - Centers origin on 0,0
 */
-void Renderer::transformPoint(raylib::Vector3 &p)
+void Renderer::toCartesian(raylib::Vector3 &p)
 {
     p.y = -p.y;
     p.x += (GetScreenWidth()  - POINT_SIZE) / 2;
@@ -40,7 +40,7 @@ void Renderer::projectPoint(raylib::Vector3 &p)
 void Renderer::preparePoint(raylib::Vector3 &p)
 {
     projectPoint(p);              // Convert from 3D to 2D
-    transformPoint(p);            // Translate to cartesiasn plane
+    toCartesian(p);            // Translate to cartesiasn plane
 }
 
 // Render the 2D point on screen in given Color
@@ -51,11 +51,15 @@ void Renderer::drawPoint(raylib::Vector3 &p, Color color)
     rect.Draw(color); 
 }
 
+void Renderer::applyTranslation() {};
+void Renderer::applyRotation() {};
+void Renderer::applyScaling() {};
+
 // - Rotate, Scale, Translate shape to its accurate position
 void Renderer::transformShape(Shape &shape)
 {
     // Rotate #TODO
-    // Transform ={scale,translate,rotate}, project, render
+    // Transform = {scale,translate,rotate}, project, render
 
     // Move
     for (auto &point : shape.vertices)
@@ -120,17 +124,6 @@ void Renderer::drawWorld(World &world)
     EndDrawing();
 }
 
-/*
-- Transforms
-- Projects
-- Prepares world for rendering to 2D screen
-*/
-void Renderer::prepareWorld(World &world)
-{
-    transformWorld(world);
-    projectWorld(world);    
-}
-
 void Renderer::pushWorldIntoView(World &world, int amount)
 {
     for (auto &shape : world.shapes)
@@ -145,7 +138,9 @@ void Renderer::pushWorldIntoView(World &world, int amount)
 // Render world via render pipeline, Transform->Project->Draw
 void Renderer::render(World &world)
 {
-    World        worldCopy = world;  // Copy the original to not cause floating drift in original world
-    prepareWorld(worldCopy);         // Transform, Project
-    drawWorld   (worldCopy);         // Draw to screen
+    World worldCopy = world;   // Copy the original to not cause floating drift in original world
+    
+    transformWorld(worldCopy); // Transform
+    projectWorld  (worldCopy); // Project 3D to 2D
+    drawWorld     (worldCopy); // Draw to screen
 }

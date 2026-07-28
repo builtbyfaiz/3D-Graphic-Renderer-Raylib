@@ -5,14 +5,19 @@
 #include <iostream>
 #include <string>
 
-void Shape::move(const raylib::Vector3 &delta)
+void Shape::move(const raylib::Vector3 &movementDeta)
 {
-    position += delta;
+    position += movementDeta;
 }
 
-void Shape::rotate(const raylib::Vector3 &delta)
+void Shape::scale(const raylib::Vector3 &scaleDelta) 
 {
-    rotation += delta;
+    scaling *= scaleDelta;
+}
+
+void Shape::rotate(const raylib::Vector3 &rotationDelta)
+{
+    rotation += rotationDelta;
 }
 
 void Shape::setColor(raylib::Color color)

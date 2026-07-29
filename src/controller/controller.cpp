@@ -12,9 +12,11 @@ void Controller::handleInput()
     yaw   = GetMouseDelta().y   * mouseSensitivity;
     roll  = GetMouseWheelMove() * mouseSensitivity * 5.0; // Provide boost to the wheels movement
 
-    if (IsKeyDown(KEY_R)) toggleRotationMode();
-    if (IsKeyPressed(KEY_T)) toggleControlMode();
     if (IsKeyDown(KEY_ESCAPE)) EnableCursor();
+
+    if (IsKeyDown(KEY_R)) toggleRotationMode();
+    if (IsKeyPressed(KEY_C)) toggleControlMode();
+    
      
     // Decide change in x,y,z based on keyboard input i.e update the move Vector
     if (IsKeyDown(KEY_W)) movementDelta.SetZ( moveSpeed);  // Forward
@@ -23,6 +25,8 @@ void Controller::handleInput()
     if (IsKeyDown(KEY_D)) movementDelta.SetX( moveSpeed);  // Right
     if (IsKeyDown(KEY_E)) movementDelta.SetY( moveSpeed);  // UP
     if (IsKeyDown(KEY_Q)) movementDelta.SetY(-moveSpeed);  // Down
+
+    if (IsKeyPressed(KEY_T)) selectedShapeIndex++;
 }
 
 // Move stuff
@@ -41,6 +45,7 @@ void Controller::update(World &world)
     //Individual shape mode
     else if (controlMode == ControlMode::Shape)
     {
+        selectedShapeIndex = selectedShapeIndex % world.shapes.size(); // Wrap to make it safe
         world.shapes[selectedShapeIndex].move(movementDelta);
         world.shapes[selectedShapeIndex].rotate(rotationDelta);
     }

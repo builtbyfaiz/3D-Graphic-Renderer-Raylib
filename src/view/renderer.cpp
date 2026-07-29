@@ -1,8 +1,9 @@
 
 #include "renderer.h"
+
 #include "globals.h"
-#include "raylib-cpp.hpp" // IWYU pragma: keep
 #include "model/camera.h"
+#include "raylib-cpp.hpp" // IWYU pragma: keep
 
 // #TODO turn this into Compute renderer, not Destructive
 
@@ -23,24 +24,14 @@ void Renderer::toCartesian(raylib::Vector3 &p)
 */
 void Renderer::projectPoint(raylib::Vector3 &p)
 {
-    p.z = p.z == 0 ? 0.01 : p.z;
+    p.z = p.z == 0 ? 0.001 : p.z;
 
     float x = p.x / p.z * focal;
     float y = p.y / p.z * focal;
 
     p.x = x; 
     p.y = y; 
-    // p.z = 0;
-}
-
-/*
-- Projects 3D point to 2D
-- Transforms to cartesian plane
-*/
-void Renderer::preparePoint(raylib::Vector3 &p)
-{
-    projectPoint(p);              // Convert from 3D to 2D
-    toCartesian(p);            // Translate to cartesiasn plane
+    // p.z = 0; 
 }
 
 // Render the 2D point on screen in given Color
@@ -68,7 +59,8 @@ void Renderer::projectShape(Shape &shape)
 {
     for (auto &point : shape.vertices)
     {
-        preparePoint(point);
+        projectPoint(point);  // Convert from 3D to 2D
+        toCartesian (point);  // Translate to cartesian plane
     }
 }
 
@@ -99,14 +91,14 @@ void Renderer::drawShape(Shape &shape)
 {
     for (auto &edge : shape.edges)
     {
-        auto A = shape.vertices[edge.first];
-        auto B = shape.vertices[edge.second];
+        auto pointA = shape.vertices[edge.first];
+        auto pointB = shape.vertices[edge.second];
 
-        float depth = (A.z + B.z) * 0.5f;
+        float depth = (pointA.z + pointB.z) * 0.5f;
 
         DrawLine(
-            A.x, A.y,
-            B.x, B.y,
+            pointA.x, pointA.y,
+            pointB.x, pointB.y,
             applyDepth(edge.getColor(), depth)
         );
     }
@@ -118,6 +110,40 @@ void Renderer::transformWorld(World &world)
     {
         shape.position -= world.camera.position;
         transformShape(shape);
+    }
+}
+
+
+void Renderer::clipWorld(World &world)
+{
+    float nearPlane = 1.0f;
+
+    for (auto &shape : world.shapes)
+    {
+        for (auto &edge : shape.edges)
+        {
+            auto &pointA = shape.vertices[edge.first];
+            auto &pointB = shape.vertices[edge.second];
+
+            // Skip Edge if it's behind camera
+            if (pointA.z < nearPlane && pointB.z < nearPlane) continue;
+
+            // Clip Edges
+            if (pointA.z < nearPlane || pointB.z < nearPlane)
+            {
+                //Current - start / end - start, Normalization formula, bounds start and end to 0 and 1
+                float ratio = (nearPlane - pointA.z) / (pointB.z - pointA.z);
+
+                // Point of intersection with Z plane
+                auto PointI = pointA + (pointB - pointA) * ratio;
+
+                // Clip point A or B whichever is behind the camera.
+                if (pointA.z < nearPlane)
+                    pointA = PointI;
+                else
+                    pointB = PointI;
+            }
+        }
     }
 }
 
@@ -160,6 +186,7 @@ void Renderer::render(World &world)
     World worldCopy = world;   // Copy the original to not cause floating drift in original world
     
     transformWorld(worldCopy); // Transform
+    clipWorld     (worldCopy); // Clip World
     projectWorld  (worldCopy); // Project 3D to 2D
     drawWorld     (worldCopy); // Draw to screen
 }

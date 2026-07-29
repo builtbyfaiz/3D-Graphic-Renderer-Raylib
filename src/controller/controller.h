@@ -15,7 +15,7 @@ class Controller
     float moveSpeed          = 2;      // Control Speed of movement
     float mouseSensitivity   = 0.01;   // Control Speed of rotations
     int   selectedShapeIndex = 0;      // Index of shapes in the world array
-    bool  rotationMode       = false;  // Toggle rotation
+    bool  rotationMode       = true;  // Toggle rotation
     
     float pitch, yaw, roll; // Vars for rotatons
 

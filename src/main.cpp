@@ -5,8 +5,8 @@
 
 int main()
 {
-    
-    raylib::Window graphicWindow(600, 600, "Graphic Render", FLAG_VSYNC_HINT);
+    SetConfigFlags(FLAG_MSAA_4X_HINT);
+    raylib::Window graphicWindow(800, 800, "Graphic Render", FLAG_VSYNC_HINT);
     SetTargetFPS(75);
     DisableCursor();
 

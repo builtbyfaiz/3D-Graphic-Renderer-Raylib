@@ -10,7 +10,7 @@ void Controller::handleInput()
 
     pitch = GetMouseDelta().x   * mouseSensitivity;
     yaw   = GetMouseDelta().y   * mouseSensitivity;
-    roll  = GetMouseWheelMove() * mouseSensitivity * 5.0; // Provide boost to the wheels movement
+    roll  = GetMouseWheelMove() * mouseSensitivity * 10.0; // Provide boost to the wheels movement
 
     if (IsKeyDown(KEY_ESCAPE)) EnableCursor();
 

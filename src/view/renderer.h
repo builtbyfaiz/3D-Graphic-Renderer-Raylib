@@ -12,7 +12,6 @@ class Renderer
     void preparePoint(raylib::Vector3 &p);            // Convert to cartesian and projects a 3D point
     void drawPoint(raylib::Vector3 &p, Color color);  // Renders point on 2d screen's cartesian plane
     
-    void          applyRotation(Shape &shape);               // Rotate shape in 3D space
     raylib::Color applyDepth(raylib::Color c, float depth);  // Provides faded colors based on depth 
 
     void transformShape(Shape &shape); // Rotate, Scale, Translate shape in 3D space

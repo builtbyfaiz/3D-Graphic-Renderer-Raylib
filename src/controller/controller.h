@@ -15,10 +15,12 @@ class Controller
 
   public:
 
-    float controlSpeed       = 1.5; // Control Speed of rotations and movement
-    int   selectedShapeIndex = 0;   // Index of shapes in the world array
+    float moveSpeed          = 1.5;  // Control Speed of movement
+    float mouseSensitivity   = 0.01; // Control Speed of rotations 
+    int   selectedShapeIndex = 0;    // Index of shapes in the world array
 
     raylib::Vector3 movementDelta{0,0,0}; 
+    raylib::Vector3 rotationDelta{0,0,0}; 
 
     void handleInput();         // Decide if an action is needed
     void update(World &world);  // Perform the needed action

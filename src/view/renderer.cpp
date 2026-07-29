@@ -51,20 +51,16 @@ void Renderer::drawPoint(raylib::Vector3 &p, Color color)
     rect.Draw(color); 
 }
 
-void Renderer::applyRotation(Shape &shape)
-{
-    
-}
-
 // - Rotate, Scale, Translate shape to its accurate position
 void Renderer::transformShape(Shape &shape)
 {
-    // Transform = {scale,translate,rotate}, project, render
+    Matrix rotation = MatrixRotateXYZ(shape.rotation);
+    // Transform = {scale, translate, rotate}, project, render
     for (auto &point : shape.vertices)
     {
-        point *= shape.scaling;   // Scale
-        // Rotate #TODO
-        point += shape.position;  // Move/Translate
+        point *= shape.scaling;                      // Scale
+        point  = Vector3Transform(point, rotation);  // Rotation
+        point += shape.position;                     // Move/Translate
     }
 }
 

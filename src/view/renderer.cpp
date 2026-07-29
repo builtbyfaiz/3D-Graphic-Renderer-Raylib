@@ -72,8 +72,8 @@ Returns a faded color based on average depth of the edge
 */
 raylib::Color Renderer::applyDepth(raylib::Color color, float depth)
 {
-    constexpr float fadeStart = 600.0f;
-    constexpr float fadeRange = 700.0f;
+    float fadeStart = 600.0f;
+    float fadeRange = 700.0f;
 
     float fade = Clamp((depth - fadeStart) / fadeRange, 0.0f, 1.0f);
 
@@ -108,11 +108,17 @@ void Renderer::transformWorld(World &world)
 {
     for (auto &shape : world.shapes)
     {
-        shape.position -= world.camera.position;
+        // Adjust Shape's position relative to the camera to be then projected
+        shape.position -= world.camera.position; 
         transformShape(shape);
+
+        // Adjust Shape's rotation relative to the camera
+        raylib::Vector3 rotation = world.camera.rotation;
+        Matrix view = MatrixRotateXYZ({rotation.x, rotation.y, rotation.z});
+        for (auto &p : shape.vertices)
+            p = Vector3Transform(p, view);
     }
 }
-
 
 void Renderer::clipWorld(World &world)
 {
@@ -186,7 +192,7 @@ void Renderer::render(World &world)
     World worldCopy = world;   // Copy the original to not cause floating drift in original world
     
     transformWorld(worldCopy); // Transform
-    clipWorld     (worldCopy); // Clip World
+    clipWorld     (worldCopy); // Clip World #TODO, temporary, add proper clipping at a shape level
     projectWorld  (worldCopy); // Project 3D to 2D
     drawWorld     (worldCopy); // Draw to screen
 }

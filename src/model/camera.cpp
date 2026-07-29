@@ -3,13 +3,11 @@
 
 void MyCamera::move(const raylib::Vector3 &movementDelta) 
 {
-    // position += movementDelta;
-    Matrix matrix = MatrixRotateXYZ(rotation);
-    position += Vector3Transform(movementDelta, matrix);
+    position += movementDelta;
 
 }
 
-void MyCamera::rotate(const raylib::Vector3 &delta) 
+void MyCamera::rotate(const raylib::Vector3 &rotationDelta) 
 {
-    rotation += delta;
+    rotation += rotationDelta;
 }

@@ -5,9 +5,11 @@
 
 int main()
 {
+    
     raylib::Window graphicWindow(600, 600, "Graphic Render", FLAG_VSYNC_HINT);
     SetTargetFPS(75);
-    
+    DisableCursor();
+
     Shape cube1("resources/cube1.txt");
     Shape cube2("resources/cube2.txt");
    
@@ -18,8 +20,6 @@ int main()
 
     Controller controller;
     Renderer renderer;
-
-    // renderer.pushWorldIntoView(world, 600);// Temp function
 
     while (!WindowShouldClose())
     {

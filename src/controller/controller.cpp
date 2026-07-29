@@ -16,14 +16,16 @@ void Controller::handleInput()
     if(IsKeyPressed(KEY_P)) controlMode = ControlMode::Shape; // Shape #TODO make selector for shapes
     
     // Decide change in x,y,z based on keyboard input i.e update the move Vector
-    if (IsKeyDown(KEY_W)) movementDelta.SetY( moveSpeed); // UP
-    if (IsKeyDown(KEY_S)) movementDelta.SetY(-moveSpeed); // Down
+    if (IsKeyDown(KEY_W)) movementDelta.SetZ( moveSpeed); // Forward
+    if (IsKeyDown(KEY_S)) movementDelta.SetZ(-moveSpeed); // Backward
     if (IsKeyDown(KEY_A)) movementDelta.SetX(-moveSpeed); // Left
     if (IsKeyDown(KEY_D)) movementDelta.SetX( moveSpeed); // Right
-    if (IsKeyDown(KEY_I)) movementDelta.SetZ( moveSpeed); // Forward
-    if (IsKeyDown(KEY_K)) movementDelta.SetZ(-moveSpeed); // Backward
+    if (IsKeyDown(KEY_Q)) movementDelta.SetY( moveSpeed); // UP
+    if (IsKeyDown(KEY_E)) movementDelta.SetY(-moveSpeed); // Down
 
     if(IsKeyDown(KEY_R)) rotationDelta = Vector3{-yaw, -pitch, roll}; // Rotate by Mouse when key activated
+
+    if(IsKeyDown(KEY_ESCAPE)) EnableCursor();
 }
 
 // Move stuff
@@ -34,7 +36,7 @@ void Controller::update(World &world)
         world.camera.move(movementDelta);
         world.camera.rotate(rotationDelta); 
     }
-
+    
     //Individual shape mode
     else if (controlMode == ControlMode::Shape) {
         world.shapes[selectedShapeIndex].move(movementDelta);

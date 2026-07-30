@@ -12,7 +12,7 @@ class Controller
         Shape
     } controlMode{ControlMode::Cam};
 
-    float moveSpeed          = 2;      // Control Speed of movement
+    float moveSpeed          = 3;      // Control Speed of movement
     float mouseSensitivity   = 0.01;   // Control Speed of rotations
     int   selectedShapeIndex = 0;      // Index of shapes in the world array
     bool  rotationMode       = true;  // Toggle rotation

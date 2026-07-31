@@ -10,13 +10,15 @@ int main()
     SetTargetFPS(75);
     DisableCursor();
 
-    Shape cube1("resources/cube1.txt");
-    Shape cube2("resources/cube2.txt");
+    // Shape cube1("resources/cube1.txt");
+    // Shape cube2("resources/cube2.txt");
+    Shape dragon1("resources/dragon1.txt");
+    Shape dragon2("resources/dragon2.txt");
    
     World world;
     
-    world.shapes.push_back(cube1);
-    world.shapes.push_back(cube2);
+    world.shapes.push_back(dragon1);
+    world.shapes.push_back(dragon2);
 
     Controller controller;
     Renderer renderer;

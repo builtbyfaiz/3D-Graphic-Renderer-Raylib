@@ -1,47 +1,77 @@
-# 3D-Renderer
+# 3D Renderer
 
-A work-in-progress 3D renderer
-Built with C++ and Raylib 5.5
+A wireframe 3D renderer built with **C++** and **Raylib 5.5**.
+
+## Preview
+
+<p align="center">
+  <img src="screenshots/cubes.gif" alt="3D Renderer Demo" height="300" />
+  &nbsp;&nbsp;&nbsp;
+  <img src="screenshots/dragonrender.png" alt="3D Renderer Screenshot" height="300" />
+  &nbsp;&nbsp;&nbsp;
+  <img src="screenshots/dragon.png" alt="3D Renderer Screenshot" height="300" />
+</p>
+
+## Features
+
+* Perspective 3D rendering
+* Camera movement
+* Camera rotation
+* Individual shape transformations
+* Individual shape rotation
+* Target selection between shapes
+* Supports rendering arbitrary 3D geometry
+
 ## Status
-In development, not feature complete.
+
+Currently archived.
 
 ## Controls
-| Input | Action |
-|-------|--------|
-| WASD  | Move around [Up, Left, Down, Right] |
-| I    | Move Forward |
-| K    | Move Backward |
-| O     | Change Movement Mode to Camera. |
-| P     | Change Movement Mode to Individual Shapes. |
+
+| Key   | Action                                             |
+| ----- | -------------------------------------------------- |
+| **W** | Move Forward                                       |
+| **S** | Move Backward                                      |
+| **A** | Move Left                                          |
+| **D** | Move Right                                         |
+| **T** | Select Next Shape                                  |
+| **C** | Toggle Control Mode (Camera / Shape)               |
+| **R** | Toggle Rotation (Current Camera or Selected Shape) |
 
 ## Building
 
 ### Prerequisites
-- MinGW-W64 or Visual Studio 2022
-- Git
+
+* MinGW-W64 or Visual Studio 2022
+* Git
 
 ### Windows (MinGW)
-```
+
+```bash
 build-MinGW-W64.bat
 make
 ```
 
 ### Windows (Visual Studio)
-```
+
+```bash
 build-VisualStudio2022.bat
 ```
+
 Then open the generated `.sln` file.
 
 ### Linux
-```
+
+```bash
 cd build
 ./premake5 gmake
 cd ..
 make
 ```
 
-### MacOS
-```
+### macOS
+
+```bash
 cd build
 ./premake5.osx gmake
 cd ..
@@ -49,4 +79,9 @@ make
 ```
 
 ## Output
-Built binary will be in `bin/debug`.
+
+The compiled executable is generated in:
+
+```
+bin/debug
+```

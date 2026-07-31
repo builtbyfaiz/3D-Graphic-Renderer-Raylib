@@ -9,7 +9,6 @@ A wireframe 3D renderer built with **C++** and **Raylib 5.5**.
   &nbsp;&nbsp;&nbsp;
   <img src="screenshots/dragonrender.png" alt="3D Renderer Screenshot" height="300" />
   &nbsp;&nbsp;&nbsp;
-  <img src="screenshots/dragon.png" alt="3D Renderer Screenshot" height="300" />
 </p>
 
 ## Features

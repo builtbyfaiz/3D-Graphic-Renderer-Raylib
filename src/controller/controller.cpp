@@ -14,7 +14,7 @@ void Controller::handleInput()
 
     if (IsKeyDown(KEY_ESCAPE)) EnableCursor();
 
-    if (IsKeyDown(KEY_R)) toggleRotationMode();
+    if (IsKeyPressed(KEY_R)) toggleRotationMode();
     if (IsKeyPressed(KEY_C)) toggleControlMode();
     
      

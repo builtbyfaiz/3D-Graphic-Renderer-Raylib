@@ -12,13 +12,15 @@ int main()
 
     // Shape cube1("resources/cube1.txt");
     // Shape cube2("resources/cube2.txt");
-    Shape dragon1("resources/dragon1.txt");
-    Shape dragon2("resources/dragon2.txt");
+    // Shape dragon1("resources/dragon1.txt");
+    // Shape dragon2("resources/dragon2.txt"); // Lower Detail 
+
+    Shape dragon("resources/dragon.txt");  // higher Detail
    
     World world;
     
-    world.shapes.push_back(dragon1);
-    world.shapes.push_back(dragon2);
+    world.shapes.push_back(dragon);
+    // world.shapes.push_back(dragon2);
 
     Controller controller;
     Renderer renderer;

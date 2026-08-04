@@ -1,5 +1,6 @@
 #pragma once
-#include "model/world.h"
+
+#include "../model/world.h"
 #include "raylib-cpp.hpp" // IWYU pragma: keep
 
 // handles input, camera movement, shape movement

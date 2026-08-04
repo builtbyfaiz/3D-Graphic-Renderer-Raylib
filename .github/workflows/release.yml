@@ -1,0 +1,74 @@
+name: Build Release
+
+on:
+  release:
+    types: [published]
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: windows-latest
+            action: vs2022
+            archive: 3D-renderer-Windows.zip
+            binary: bin/Release/3D-renderer-raylib.exe
+
+          - os: ubuntu-latest
+            action: gmake2
+            archive: 3D-renderer-Linux.zip
+            binary: bin/Release/3D-renderer-raylib
+
+          - os: macos-latest
+            action: gmake2
+            archive: 3D-renderer-macOS.zip
+            binary: bin/Release/3D-renderer-raylib
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: abel0b/setup-premake@v2
+        with:
+          version: "5.0.0-beta2"
+
+      - name: Setup MSBuild
+        if: runner.os == 'Windows'
+        uses: microsoft/setup-msbuild@v2
+
+      - name: Generate Projects
+        run: premake5 ${{ matrix.action }}
+
+      - name: Build (Windows)
+        if: runner.os == 'Windows'
+        run: |
+          msbuild *.sln ^
+            /p:Configuration=Release ^
+            /p:Platform=x64
+
+      - name: Build (Linux/macOS)
+        if: runner.os != 'Windows'
+        run: make config=release_x64
+
+      - name: Package
+        shell: bash
+        run: |
+          mkdir package
+          cp "${{ matrix.binary }}" package/
+          cp -r resources package/
+
+      - name: Zip
+        shell: bash
+        run: |
+          cd package
+          zip -r "../${{ matrix.archive }}" .
+
+      - name: Upload Release Asset
+        uses: softprops/action-gh-release@v2
+        with:
+          files: ${{ matrix.archive }}

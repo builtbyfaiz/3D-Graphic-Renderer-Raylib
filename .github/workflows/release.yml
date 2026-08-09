@@ -2,6 +2,7 @@ name: Build Release
 on:
   release:
     types: [published]
+  workflow_dispatch:
 
 permissions:
   contents: write
@@ -45,37 +46,37 @@ jobs:
         run: |
           echo "Contents of build/:"
           ls -la build/
-          if [ "${{ runner.os }}" == "Windows" ] && [ ! -f "build/premake.exe" ]; then
-            echo "::error::build/premake.exe not found in repo. Ensure it's committed."
+          if [ "${{ runner.os }}" == "Windows" ] && [ ! -f "build/premake5.exe" ]; then
+            echo "::error::build/premake5.exe not found in repo. Ensure it's committed."
             exit 1
           fi
-          if [ "${{ runner.os }}" == "Linux" ] && [ ! -f "build/premake" ]; then
-            echo "::error::build/premake not found in repo. Ensure it's committed."
+          if [ "${{ runner.os }}" == "Linux" ] && [ ! -f "build/premake5" ]; then
+            echo "::error::build/premake5 not found in repo. Ensure it's committed."
             exit 1
           fi
-          if [ "${{ runner.os }}" == "macOS" ] && [ ! -f "build/premake.osx" ]; then
-            echo "::error::build/premake.osx not found in repo. Ensure it's committed."
+          if [ "${{ runner.os }}" == "macOS" ] && [ ! -f "build/premake5.osx" ]; then
+            echo "::error::build/premake5.osx not found in repo. Ensure it's committed."
             exit 1
           fi
 
       - name: Generate Projects (Windows)
         if: runner.os == 'Windows'
         working-directory: build
-        run: .\premake.exe ${{ matrix.action }}
+        run: .\premake5.exe ${{ matrix.action }}
 
       - name: Generate Projects (Linux)
         if: runner.os == 'Linux'
         working-directory: build
         run: |
-          chmod +x ./premake
-          ./premake ${{ matrix.action }}
+          chmod +x ./premake5
+          ./premake5 ${{ matrix.action }}
 
       - name: Generate Projects (macOS)
         if: runner.os == 'macOS'
         working-directory: build
         run: |
-          chmod +x ./premake.osx
-          ./premake.osx ${{ matrix.action }}
+          chmod +x ./premake5.osx
+          ./premake5.osx ${{ matrix.action }}
 
       - name: Verify solution/makefile generated
         shell: bash
@@ -126,6 +127,7 @@ jobs:
           zip -r "../${{ matrix.archive }}" .
 
       - name: Upload Release Asset
+        if: github.event_name == 'release'
         uses: softprops/action-gh-release@v2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

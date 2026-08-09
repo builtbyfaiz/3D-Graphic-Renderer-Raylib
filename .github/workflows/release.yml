@@ -120,7 +120,13 @@ jobs:
             echo "::warning::resources/ folder not found at repo root, skipping."
           fi
 
-      - name: Zip
+      - name: Zip (Windows)
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: Compress-Archive -Path package\* -DestinationPath "${{ matrix.archive }}"
+
+      - name: Zip (Linux/macOS)
+        if: runner.os != 'Windows'
         shell: bash
         run: |
           cd package

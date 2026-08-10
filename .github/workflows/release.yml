@@ -41,7 +41,7 @@ jobs:
         if: runner.os == 'Windows'
         uses: microsoft/setup-msbuild@v2
 
-      - name: Verify premake binary exists in build/
+      - name: Verify premake5 binary exists in build/
         shell: bash
         run: |
           echo "Contents of build/:"

@@ -1,8 +1,8 @@
 name: Build Release
-
 on:
   release:
     types: [published]
+  workflow_dispatch:
 
 permissions:
   contents: write
@@ -17,58 +17,125 @@ jobs:
             action: vs2022
             archive: 3D-renderer-Windows.zip
             binary: bin/Release/3D-renderer-raylib.exe
-
           - os: ubuntu-latest
             action: gmake2
             archive: 3D-renderer-Linux.zip
             binary: bin/Release/3D-renderer-raylib
-
           - os: macos-latest
             action: gmake2
             archive: 3D-renderer-macOS.zip
             binary: bin/Release/3D-renderer-raylib
-
     runs-on: ${{ matrix.os }}
-
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
 
-      - uses: abel0b/setup-premake@v2
-        with:
-          version: "5.0.0-beta2"
+      - name: Install Linux build deps
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libx11-dev libxrandr-dev libxinerama-dev \
+            libxcursor-dev libxi-dev libgl1-mesa-dev
 
       - name: Setup MSBuild
         if: runner.os == 'Windows'
         uses: microsoft/setup-msbuild@v2
 
-      - name: Generate Projects
-        run: premake5 ${{ matrix.action }}
+      - name: Verify premake5 binary exists in build/
+        shell: bash
+        run: |
+          echo "Contents of build/:"
+          ls -la build/
+          if [ "${{ runner.os }}" == "Windows" ] && [ ! -f "build/premake5.exe" ]; then
+            echo "::error::build/premake5.exe not found in repo. Ensure it's committed."
+            exit 1
+          fi
+          if [ "${{ runner.os }}" == "Linux" ] && [ ! -f "build/premake5" ]; then
+            echo "::error::build/premake5 not found in repo. Ensure it's committed."
+            exit 1
+          fi
+          if [ "${{ runner.os }}" == "macOS" ] && [ ! -f "build/premake5.osx" ]; then
+            echo "::error::build/premake5.osx not found in repo. Ensure it's committed."
+            exit 1
+          fi
+
+      - name: Generate Projects (Windows)
+        if: runner.os == 'Windows'
+        working-directory: build
+        run: .\premake5.exe ${{ matrix.action }}
+
+      - name: Generate Projects (Linux)
+        if: runner.os == 'Linux'
+        working-directory: build
+        run: |
+          chmod +x ./premake5
+          ./premake5 ${{ matrix.action }}
+
+      - name: Generate Projects (macOS)
+        if: runner.os == 'macOS'
+        working-directory: build
+        run: |
+          chmod +x ./premake5.osx
+          ./premake5.osx ${{ matrix.action }}
+
+      - name: Verify solution/makefile generated
+        shell: bash
+        run: |
+          if [ "${{ runner.os }}" == "Windows" ]; then
+            find . -maxdepth 1 -iname "*.sln" | grep -q . || { echo "::error::No .sln generated at repo root."; exit 1; }
+          else
+            [ -f "Makefile" ] || { echo "::error::No Makefile generated at repo root."; exit 1; }
+          fi
 
       - name: Build (Windows)
         if: runner.os == 'Windows'
+        shell: pwsh
         run: |
-          msbuild *.sln ^
-            /p:Configuration=Release ^
-            /p:Platform=x64
+          $sln = Get-ChildItem -Path . -Filter *.sln -Depth 0 | Select-Object -First 1
+          if (-not $sln) { throw "No .sln file found at repo root." }
+          msbuild $sln.FullName /p:Configuration=Release /p:Platform=x64
 
       - name: Build (Linux/macOS)
         if: runner.os != 'Windows'
         run: make config=release_x64
+
+      - name: Verify binary was produced
+        shell: bash
+        run: |
+          if [ ! -f "${{ matrix.binary }}" ]; then
+            echo "::error::Expected binary not found at ${{ matrix.binary }}"
+            echo "Contents of bin/:"
+            find bin -type f 2>/dev/null || echo "(bin/ does not exist)"
+            exit 1
+          fi
 
       - name: Package
         shell: bash
         run: |
           mkdir package
           cp "${{ matrix.binary }}" package/
-          cp -r resources package/
+          if [ -d "resources" ]; then
+            cp -r resources package/
+          else
+            echo "::warning::resources/ folder not found at repo root, skipping."
+          fi
 
-      - name: Zip
+      - name: Zip (Windows)
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: Compress-Archive -Path package\* -DestinationPath "${{ matrix.archive }}"
+
+      - name: Zip (Linux/macOS)
+        if: runner.os != 'Windows'
         shell: bash
         run: |
           cd package
           zip -r "../${{ matrix.archive }}" .
 
       - name: Upload Release Asset
+        if: github.event_name == 'release'
         uses: softprops/action-gh-release@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           files: ${{ matrix.archive }}
